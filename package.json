@@ -9,7 +9,8 @@
   },
   "devDependencies": {
     "mocha": "*",
-    "chai": "*"
+    "chai": "*",
+    "matcha": "*"
   },
   "main": "index",
   "repository": {
@@ -17,6 +18,7 @@
     "url": "https://github.com/Yvem/node-exif.git"
   },
   "scripts": {
-    "test": "./node_modules/.bin/mocha test/index.js --reporter spec"
+    "test": "mocha test/index.js --reporter spec",
+    "bench": "matcha bench/index.js"
   }
 }
