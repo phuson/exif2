@@ -3,8 +3,8 @@
  * Module dependencies.
  */
 
-var exec = require('child_process').exec
-  , command = require('shelly');
+var exec = require('child_process').exec;
+var command = require('shelly');
 
 /**
  * Fetch EXIF data from `file` and invoke `fn(err, data)`.
@@ -15,30 +15,14 @@ var exec = require('child_process').exec
  */
 
 module.exports = function(file, fn){
-  var cmd = command('exiftool ?', file);
+  // REM : exiftool options http://www.sno.phy.queensu.ca/~phil/exiftool/exiftool_pod.html
+  // -json : ask JSON output
+  var cmd = command('exiftool -json ?', file);
   exec(cmd, function(err, str){
     if (err) return fn(err);
-    
-    var obj = str.split('\n').reduce(function(obj, line){
-      var i = line.indexOf(':');
-      var key = slug(line.slice(0, i));
-      var val = line.slice(i + 1, line.length).trim();
-      if ('' == key || '' == val) return obj;
-      obj[key] = val;
-      return obj;
-    }, {});
+
+    var obj = JSON.parse(str)[0]; // so easy
 
     fn(null, obj);
   });
 };
-
-/**
- * Slug `str`.
- */
-
-function slug(str) {
-  return str
-    .trim()
-    .replace(/[^\w]+/g, ' ')
-    .toLowerCase();
-}
