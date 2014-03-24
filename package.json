@@ -9,8 +9,7 @@
   },
   "devDependencies": {
     "mocha": "*",
-    "better-assert": "*",
-    "matcha": "*"
+    "chai": "*"
   },
   "main": "index",
   "repository": {
