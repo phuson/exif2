@@ -2,16 +2,16 @@
 
 Image meta-information (EXIF, IPTC, XMP...) extraction using [exiftool](http://www.sno.phy.queensu.ca/~phil/exiftool/)
 
-__NOTE__: This fork from https://github.com/visionmedia/node-exif has a DIFFERENT (better !) API.
+__NOTE__: This fork from https://github.com/visionmedia/node-exif has a DIFFERENT (improved !) API.
  It uses [precise tags](http://www.sno.phy.queensu.ca/~phil/exiftool/TagNames/index.html) for field access.
 
 ## Installation
 
     $ npm install Yvem/node-exif
 
-### Example
+## Usage
 
-```js
+```javascript
 var exif = require('exif2');
 
 exif(file, function(err, obj){
@@ -148,11 +148,38 @@ exif(file, function(err, obj){
 }
 ```
 
-## Test
+## Advanced usage
+
+### Errors
+node-exif may throw custom errors :
+
+* `Metadata too big !` when metadata are too big to be parsed with current buffer limitations
+
+### Special options
+For special cases, it is possible to provide exec options.
+`exif()` optional second parameter may be an `exec()` option object as described here :
+http://nodejs.org/api/child_process.html#child_process_child_process_exec_command_options_callback
+
+Example usage : augment stdout buffer size to handle images with huge metadata :
+
+```javascript
+// REM : default buffer value is 200*1024
+exif(file, { maxBuffer: 1024*1024 }, function(err, obj) {
+  console.log(obj);
+})
+```
+
+## Test / contribute
 
 ```bash
 npm install
 npm test
+````
+
+and also
+```bash
+make test
+make bench
 ````
 
 ## License 
